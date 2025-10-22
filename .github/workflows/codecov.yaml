@@ -33,14 +33,12 @@ jobs:
         command: build
 
     - name: Build all examples
-      if: contains(matrix.os, 'linux')
       uses: actions-rs/cargo@v1
       with:
         command: build
         args: --workspace --examples
 
     - name: Run all tests
-      if: contains(matrix.os, 'linux')
       uses: actions-rs/cargo@v1
       env:
         NYM_API: https://sandbox-nym-api1.nymtech.net/api
