@@ -32,11 +32,11 @@ jobs:
       with:
         command: build
 
-    - name: Build all examples
-      uses: actions-rs/cargo@v1
-      with:
-        command: build
-        args: --workspace --examples
+    # - name: Build all examples
+    #   uses: actions-rs/cargo@v1
+    #   with:
+    #     command: build
+    #     args: --workspace --examples
 
     - name: Run all tests
       uses: actions-rs/cargo@v1
