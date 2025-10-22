@@ -21,12 +21,14 @@ jobs:
       with:
         toolchain: nightly
         override: true
-        components: rustfmt, clippy        
+        components: rustfmt, clippy, llvm-tools
 
     - name: Build all binaries
       uses: actions-rs/cargo@v1
       with:
         command: build
+      env:
+        RUSTFLAGS: '-Cinstrument-coverage'
 
     # - name: Build all examples
     #   uses: actions-rs/cargo@v1
@@ -38,9 +40,10 @@ jobs:
       uses: actions-rs/cargo@v1
       env:
         NYM_API: https://sandbox-nym-api1.nymtech.net/api
+        LLVM_PROFILE_FILE: 'your_name-%p-%m.profraw'
         CARGO_INCREMENTAL: '0'
-        RUSTFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
-        RUSTDOCFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
+        RUSTFLAGS: '-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Coverflow-checks=off -Zpanic_abort_tests -Cpanic=abort'
+        RUSTDOCFLAGS: '-Cpanic=abort'
       with:
         command: test
         args: --workspace --verbose
